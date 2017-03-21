@@ -1,0 +1,38 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+function parse_git_branch {
+	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \[\1\]/'
+}
+
+function proml {
+	local BLUE="\[\033[0;34m\]"
+	# OPTIONAL - if you want to use any of these other colors:
+	local RED="\[\033[0;31m\]"
+	local LIGHT_RED="\[\033[1;31m\]"
+	local GREEN="\[\033[0;32m\]"
+	local LIGHT_GREEN="\[\033[1;32m\]"
+	local WHITE="\[\033[1;37m\]"
+	local LIGHT_GRAY="\[\033[0;37m\]"
+	# END OPTIONAL
+	local DEFAULT="\[\033[0m\]"
+	PS1="\u@\h: $LIGHT_GRAY\W$DEFAULT $WHITE\$(parse_git_branch) $DEFAULT\$ "
+}
+
+function term {
+	if [ -n "$DISPLAY" ]; then
+		export TERM=xterm-256color
+	fi
+}
+
+proml
+term
+
+# keep this until vagrant bug #8096 gets fixed
+# https://github.com/mitchellh/vagrant/issues/8096
+ifup eth1 >/dev/null 2>&1

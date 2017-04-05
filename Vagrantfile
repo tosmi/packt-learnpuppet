@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = false
 
   config.vm.provision "shell", path: "vagrant/packages.sh"
-  config.vm.provision "shell", path: "vagrant/provision.sh"
+  # config.vm.provision "shell", path: "vagrant/provision.sh"
   config.vm.provision "shell", inline: "echo 'Defaults secure_path = /sbin:/bin:/opt/puppetlabs/bin' > /etc/sudoers.d/puppet"
   # config.vm.provision "shell", inline: "ifup eth1 >/dev/null 2>&1"
   config.vm.provision "file",  source: "vagrant/bash_profile", destination: ".bash_profile"
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "vm1", primary: true do |pupdev|
     pupdev.vm.hostname = 'puppet-vm1'
-    pupdev.vm.network "private_network", ip: "192.168.42.42"
+    #pupdev.vm.network "private_network", ip: "192.168.42.42"
   end
 
   # config.vm.define "vm2", autostart: false  do |pupdev|
